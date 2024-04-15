@@ -1,6 +1,5 @@
 # Autodesk Assignment 
 ## Description
-This README file provides documentation for the project.
 The task involves creating a service with two endpoints. 
 The first endpoint should fetch a list of Autodesk-related videos from the YouTube API, including details such as title, length, and views. 
 The second endpoint should provide a health check for the service, returning information about the operating system, language/platform version, memory usage, and CPU usage.
