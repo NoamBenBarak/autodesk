@@ -45,7 +45,7 @@ app.get('/health', async (req, res, next)=>{
         const cpuUsage = os.cpus().reduce((acc, cpu) => acc + cpu.times.user, 0) / (os.uptime() * os.cpus().length) ;
          // Send health check response
         res.send({
-            os: os.platform(),
+            os: os.platform(), //
             nodeVersion: process.version,
             memoryUsage: `${machineMemoryUsage.toFixed(2)}%`,
             cpuUsage: `${cpuUsage.toFixed(2)}%`,
