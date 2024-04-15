@@ -6,17 +6,17 @@ Live API on Heroku
 
 ## Documentation
 ### Endpoints:
-#### Root Endpoint
+####Root Endpoint
 URL: /
 Description: Returns a simple greeting message from the API.
 Method: GET
 
-#### Search Endpoint
+####Search Endpoint
 URL: /search
 Description: Fetches Autodesk-related videos from YouTube API.
 Method: GET
 
-#### Health Check Endpoint
+####Health Check Endpoint
 URL: /health
 Description: Provides health status information about the server.
 Method: GET
