@@ -1,38 +1,49 @@
+// Import required modules
 const express = require('express')
 const axios = require('axios')
 const os = require('os')
+require('dotenv').config();
 
+// Initialize Express app and set port
 const app = express()
 const port = process.env.PORT || 3000;
 
-// const apiKey = "AIzaSyCqfHWVhzEkGcNpLg4uOryZ4i6r8xYjdDk"
-const apiKey = "AIzaSyBnt3RiGrcgIHnEvPMU4ug6bySLr7RTvE0"
+// API Key for YouTube API (retrieved from environment variables)
+const apiKey = process.env.API_KEY;
 const baseApiUrl = "https://www.googleapis.com/youtube/v3"
 
-
+// Start listening on defined port
 app.listen(port, ()=>{
     console.log("App is started")
 })
 
-
+// Route to handle root endpoint
 app.get('/', (req,res)=>{
     res.send('Hello from my initial API')
 });
 
-
+// Route to fetch Autodesk videos
 app.get('/search', async (req, res, next)=>{
     try {
         const videos = await getAutodeskVideos();
         res.send(videos);
     } catch (error) {
-        next(error)
+        // Send appropriate error response to client
+        res.status(500).send({ error: 'Internal Server Error' });
+        // Log the error for debugging purposes
+        console.error('Error fetching Autodesk videos:', error);
+        // Forward the error to the error-handling middleware
+        next(error);
     }
 })
 
+// Route for health check
 app.get('/health', async (req, res, next)=>{
     try {
+        // Calculate machine memory usage and CPU usage
         const machineMemoryUsage =  ((os.totalmem()-os.freemem()) / os.totalmem()) * 100 ;
         const cpuUsage = os.cpus().reduce((acc, cpu) => acc + cpu.times.user, 0) / (os.uptime() * os.cpus().length) ;
+         // Send health check response
         res.send({
             os: os.platform(),
             nodeVersion: process.version,
@@ -40,10 +51,16 @@ app.get('/health', async (req, res, next)=>{
             cpuUsage: `${cpuUsage.toFixed(2)}%`,
         });
     } catch (error) {
-        next(error)
+        // Send appropriate error response to client
+        res.status(500).send({ error: 'Internal Server Error' });
+        // Log the error for debugging purposes
+        console.error('Error performing health check:', error);
+        // Forward the error to the error-handling middleware
+        next(error);
     }
 })
 
+// Function to fetch views count for a YouTube video
 async function getViews(id){
     try {
         const url = `${baseApiUrl}/videos`;
@@ -52,6 +69,7 @@ async function getViews(id){
             id: id,
             key: apiKey
         };
+         // Fetch views count from YouTube API
         const viewsRes = await axios.get(url, { params })
         const views = viewsRes.data.items.map((item) => (item.statistics.viewCount));
         return views.join(', ');
@@ -60,6 +78,7 @@ async function getViews(id){
     }
 }
 
+// Function to fetch duration for a YouTube video
 async function getDuration(id){
     try {
         const url = `${baseApiUrl}/videos`;
@@ -68,6 +87,7 @@ async function getDuration(id){
             id: id,
             key: apiKey
         };
+        // Fetch duration from YouTube API
         const durationRes = await axios.get(url, { params });
         const videoDurations = durationRes.data.items.map((item) => convertYoutubeDuration(item.contentDetails.duration));
         return videoDurations.join(', ');
@@ -76,6 +96,7 @@ async function getDuration(id){
     }
 }
 
+// Function to fetch Autodesk-related videos from YouTube
 async function getAutodeskVideos(){
     try {
         const url = "https://www.googleapis.com/youtube/v3/search";
@@ -86,9 +107,11 @@ async function getAutodeskVideos(){
             type: "video",
             key: apiKey
         };
+        // Fetch videos from YouTube API
         const response = await axios.get(url, { params });
         const data = response.data;
         const videos = [];
+         // Iterate over each video item and extract relevant information
         for (const item of data.items) {
             const title = item.snippet.title;
             const videoId = item.id.videoId;
@@ -102,6 +125,7 @@ async function getAutodeskVideos(){
     }
 }
 
+// Function to convert YouTube video duration format to HH:MM:SS
 function convertYoutubeDuration(youtubeDurationFormat){
     const match = youtubeDurationFormat.match(/^PT(?:(\d+)M)?(?:(\d+)S)?$/);
     if (!match) {
@@ -130,4 +154,5 @@ function convertYoutubeDuration(youtubeDurationFormat){
     return `${hours}:${minutes}:${seconds}`;
 }
 
-module.exports = convertYoutubeDuration;
+// Export for testing
+module.exports = {convertYoutubeDuration};
