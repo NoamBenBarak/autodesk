@@ -41,8 +41,9 @@ app.get('/search', async (req, res, next)=>{
 app.get('/health', async (req, res, next)=>{
     try {
         // Calculate machine memory usage and CPU usage
-        const machineMemoryUsage =  ((os.totalmem()-os.freemem()) / os.totalmem()) * 100 ;
-        const cpuUsage = os.cpus().reduce((acc, cpu) => acc + cpu.times.user, 0) / (os.uptime() * os.cpus().length) ;
+        const machineMemoryUsage =  ((os.totalmem()-os.freemem()) / os.totalmem()) / 100 ;
+        // const cpuUsage = os.cpus().reduce((acc, cpu) => acc + cpu.times.user, 0) / (os.uptime() * os.cpus().length) / 100 ;
+        const cpuUsage = os.cpus().reduce((acc, cpu) => acc + cpu.times.user / os.uptime(), 0) / os.cpus().length/ 100;
          // Send health check response
         res.send({
             os: os.platform(), //
@@ -69,7 +70,7 @@ async function getViews(id){
             id: id,
             key: apiKey
         };
-         // Fetch views count from YouTube API
+        // Fetch views count from YouTube API
         const viewsRes = await axios.get(url, { params })
         const views = viewsRes.data.items.map((item) => (item.statistics.viewCount));
         return views.join(', ');

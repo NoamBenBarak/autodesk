@@ -7,8 +7,6 @@ The second endpoint should provide a health check for the service, returning inf
 ## Live API Link
 [Autodesk API on Heroku](https://autodesk-noam-d6347ff07cb2.herokuapp.com/)
 
-## Documentation
-
 ### Endpoints
 
 #### Root Endpoint
