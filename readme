@@ -1,11 +1,17 @@
-# Autodesk Assignment API
-Live API on Heroku
+# Autodesk Assignment 
+## Description
+This README file provides documentation for the project.
+The task involves creating a service with two endpoints. 
+The first endpoint should fetch a list of Autodesk-related videos from the YouTube API, including details such as title, length, and views. 
+The second endpoint should provide a health check for the service, returning information about the operating system, language/platform version, memory usage, and CPU usage.
 
 ## Live API Link
 [Autodesk API on Heroku](https://autodesk-noam-d6347ff07cb2.herokuapp.com/)
 
 ## Documentation
-### Endpoints:
+
+### Endpoints
+
 #### Root Endpoint
 URL: /
 Description: Returns a simple greeting message from the API.
@@ -21,30 +27,26 @@ URL: /health
 Description: Provides health status information about the server.
 Method: GET
 
-## How to Use:
-Clone this repository to your local machine.
-Install the required dependencies using npm install.
-Set up your environment variables by creating a .env file based on the provided .env.example file and adding your YouTube API key.
-Start the server by running npm start.
-You can now access the API endpoints locally using the provided routes.
+## How to Use
+1. Clone this repository to your local machine.
+2. Install the required dependencies using `npm install`.
+3. Set up your environment variables by creating a `.env` file based on the provided `.env` file and adding your YouTube API key.
+4. Start the server by running `npm start`.
+5. You can now access the API endpoints locally using the provided routes.
 
-## Error Handling:
-The API handles errors gracefully and returns appropriate error responses with status codes.
-If you encounter any issues, refer to the error messages in the response for troubleshooting.
+## Error Handling
+The API handles errors gracefully and returns appropriate error responses with status codes. If you encounter any issues, refer to the error messages in the response for troubleshooting.
 
 ## Running Locally with Docker
 To run the service locally with Docker, follow these steps:
 
-Make sure you have Docker installed on your machine.
-Clone this repository to your local machine.
-Build the Docker image using the provided Dockerfile:
-Copy code
-docker build -t autodesk-assignment-api .
-Run the Docker container:
-arduino
-Copy code
-docker run -p 3000:3000 autodesk-assignment-api
-The API should now be accessible at http://localhost:3000.
+1. Make sure you have Docker installed on your machine.
+2. Clone this repository to your local machine.
+3. Build the Docker image using the provided Dockerfile:
+docker build -t autodesk_assignment
+4. Run the Docker container:
+docker run -p 3000:3000 autodesk_assignment
+5. The API should now be accessible at [http://localhost:3000](http://localhost:3000).
 
 ## Contributor
 Noam Ben Barak
